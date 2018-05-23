@@ -1,17 +1,22 @@
 import data from "./data.js";
 import { normalize, schema } from "normalizr";
 
-const item = new schema.Entity(
+const urlIndx = {};
+const itemSch = new schema.Entity(
   "menu",
   {},
   {
-    idAttribute: "absolute_url"
+    processStrategy: entity => {
+      urlIndx[entity.absolute_url] = entity.id;
+      return entity;
+    }
   }
 );
-const items = [item];
-item.define({ submenu: items });
+const itemsSch = [itemSch];
+itemSch.define({ submenu: itemsSch });
 
-const normData = normalize(data, items);
-console.log(normData.entities.menu["/catalog/"]);
+const nData = normalize(data, itemsSch);
+nData.urlIndx = urlIndx;
+
 const el = document.getElementById("root");
-el.innerHTML = `<pre>${JSON.stringify(normData, null, 2)}</pre>`;
+el.innerHTML = `<pre>${JSON.stringify(nData, null, 2)}</pre>`;
