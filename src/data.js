@@ -1,9 +1,11 @@
 export default [
   {
+    id: 1,
     name: "Доставка",
     absolute_url: "/delivery/"
   },
   {
+    id: 2,
     name: "Каталог",
     absolute_url: "/catalog/",
     submenu: [
